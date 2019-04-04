@@ -80,7 +80,7 @@ describe('Array', function () {
                 })
             }
 
-            var batchWriter = new BatchWriter(20, 10, writeOp)
+            var batchWriter = new BatchWriter(10, 200, writeOp)
             input.pipe(batchWriter).on('finish', () => {
                 done()
             })
