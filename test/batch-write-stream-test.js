@@ -68,19 +68,16 @@ describe('Array', function () {
             var input = mockReadStream(contents)
 
             var counter = 0
-            var writeOp = (buffer) => {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        var list = buffer.toString().split('\n')
-                        console.log(counter++)
-                        //for (var data of list)
-                        //console.log(buffer.toString())
-                        resolve(true);
-                    }, Math.floor(Math.random() * 100))
-                })
+            var writeOp = async (buffer) => {
+                setTimeout(() => {
+                    var list = buffer.toString().split('\n')
+                    //console.log(counter++)
+                    for (var data of list)
+                    console.log(buffer.toString())
+                }, Math.floor(Math.random() * 100))
             }
 
-            var batchWriter = new BatchWriter(10, 200, writeOp)
+            var batchWriter = new BatchWriter(5, 200, writeOp)
             input.pipe(batchWriter).on('finish', () => {
                 done()
             })
