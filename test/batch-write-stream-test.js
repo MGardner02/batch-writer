@@ -83,5 +83,69 @@ describe('Array', function () {
             }))*/
         })
 
+        it('should parse basic read stream with a limit of 1 per batch', function (done) {
+            var contents = [
+                'HEADER',
+                'LINE001',
+                'LINE002',
+                'FOOTER'
+            ];
+
+            contents = ['HEADER']
+            for (var i = 0; i < 1000; i++) {
+                var s = 'LINE'
+                if (i < 10)
+                    s += '0'
+                if (i < 100)
+                    s += '0'
+                s += i
+                s += '\n'
+                contents.push(s)
+            }
+            contents.push('FOOTER')
+
+            var options = {
+                fields: [{
+                    label: 'Text Column',
+                    width: 4,
+                    value: 'text'
+                }, {
+                    label: 'Line Number',
+                    width: 3,
+                    scale: 0,
+                    value: 'record'
+                }],
+                header: [{
+                    label: 'Header',
+                    width: 6,
+                    value: 'header'
+                }],
+                footer: [{
+                    label: 'Footer',
+                    width: 6,
+                    value: 'footer'
+                }],
+                headerRequired: true,
+                footerRequired: false
+            }
+
+            var input = mockReadStream(contents)
+
+            var counter = 0
+            var writeOp = async (buffer) =>
+                setTimeout(() => console.log(counter++, buffer.toString()), Math.floor(Math.random() * 100))
+
+            var batchWriter = new BatchWriter(1, 1, writeOp)
+            input.pipe(batchWriter).on('finish', () => {
+                done()
+            })
+            /*.pipe(es.map((data, cb) => {
+                cb(null, data.record)
+            })).pipe(es.map((data, cb) => {
+                console.log(data)
+                cb()
+            }))*/
+        })
+
     })
 })
