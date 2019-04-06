@@ -1,5 +1,5 @@
 {
-  "name": "batch-write-stream",
+  "name": "batch-writer",
   "version": "0.0.1",
   "description": "Manages stream flow and maximizes resource utilization for write streams performing operations in batches",
   "license": "MIT",
