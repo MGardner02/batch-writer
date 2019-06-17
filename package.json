@@ -1,6 +1,6 @@
 {
   "name": "batch-writer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Manages stream flow and maximizes resource utilization for write streams performing operations in batches",
   "license": "MIT",
   "repository": "mgardner02/batch-writer",
